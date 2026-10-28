@@ -43,6 +43,18 @@ jobs:
         npx cap add android
         npx cap sync android
 
+    - name: Fix Kotlin Duplicate Classes
+      run: |
+        # Добавляем блок принудительного выравнивания версий Kotlin
+        sed -i '/^android {/i\
+        configurations.all {\
+            resolutionStrategy {\
+                force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"\
+                force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"\
+            }\
+        }\
+        ' android/app/build.gradle
+
     - name: Build APK with Gradle
       run: |
         cd android
